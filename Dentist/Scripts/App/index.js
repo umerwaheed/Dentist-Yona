@@ -37,7 +37,7 @@
             var text = Index.data.RequirementList[i];
             html = html + "<input type='radio' id='radio" + (i + 1) + "' name='radioReq' value='" + text+"'>";
             html = html + " <label for='radio"+(i+1)+"'>" + text+"</label>";
-            html = html + "<br>";
+            //html = html + "<br>";
         }
 
         $(".radio-toolbar").append(html);

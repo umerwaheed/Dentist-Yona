@@ -173,6 +173,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\12681479-A-light-blue-background.jpg" />
+    <Content Include="Images\black-elegant-criss-cross-background-free-vector.jpg" />
     <Content Include="Images\logo-bg.png" />
     <Content Include="Images\logo.jpeg" />
     <Content Include="Scripts\App\index.js" />
