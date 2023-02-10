@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+.nav_bar{
+    width: 100%;
+    display: flex;
+
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 10px;
+}
+.nav_bar .navbar_right{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.nav_bar .navbar_right img{
+    width: 120px;
+    object-fit: contain;
+}
+.nav_bar .navbar_left{
+    width: 60%;
+}
+.nav_bar .navbar_left{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+    align-items: center;
+    color: #A4A5A4;
+    font-weight: 500;
+    font-size: 2.3rem;
+    list-style: none;
+}
+.navbar_left li{
+    cursor: pointer;
+}
+.navbar_left li:hover{
+   color: black;
+}
+.main_sec{
+    background: #F5FBFF;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    padding: 40px 30px;
+}
+.main_sec .left_sec{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.main_sec .line_divider{
+    border-right: 2px;
+    border-style: solid;
+    height: 100vh;
+    border-color: #5DB2FF;
+    width: 2px;
+    border-left: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+}
+.main_sec .left_sec img{
+    width: 200px;
+    object-fit: contain;
+   
+}
+.main_sec .right_sec{
+    width: 50%;
+}
+.right_sec .right_nav_Sec{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.right_nav_Sec .date, .right_nav_Sec .name{
+    display: flex;
+    align-items: center;    
+}
+.right_nav_Sec p{
+    font-size: 2.4rem;
+    font-weight: 600;
+
+}
+.right_nav_Sec input{
+    border-bottom: 1px solid #5DB2FF;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background: transparent;
+    padding-bottom: 5px;
+    text-align: center;
+    width: 50%;
+}
+.right_nav_Sec input[type="text"]
+{
+    font-size:2.3rem;
+    font-weight: 600;
+}
+.right_nav_Sec input:focus{
+    outline: none;
+}
+.right_nav_main .multipleDropdowns div{
+    display: flex;
+    margin: 20px 0px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.right_nav_main .dropdown_btns{
+    display: flex;
+    margin: 50px 0px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+   
+}
+.right_nav_main .btn-primary{
+    background-color: #5DB2FF;
+    position: relative;
+    left: 35%;
+    transform: translateX(-35%);
+    
+}
+.right_nav_main button{
+    font-weight: 400;
+    font-size: 1.2rem;
+    border: none;
+    width: 170px;
+ 
+}
+.right_nav_main .btn_style{
+    border-radius: 25px;
+}
+
+.dropdown .dropdown-toggle , .dropdown .dropdown-toggle:focus, .dropdown .dropdown-toggle:hover{
+    background-color: white;
+    color: black;
+    border: 1px solid #5DB2FF;
+}
+.dropdown{
+    width: 100%;
+}
+.dropdown_btns_one .dropdown ul{
+    width: 100%;
+    text-align: right;
+}
+.dropdown ul li{
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 30px 0px;
+}
+@media screen and (max-width: 600px) {
+    .nav_bar{
+        flex-direction: column-reverse;
+    }
+   .nav_bar .navbar_left{
+        justify-content: space-between;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+}
+
+.radio-toolbar {
+    margin: 10px;
+}
+
+.radio-toolbar input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+.radio-toolbar label {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 10px 20px;
+    font-family: sans-serif, Arial;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 4px;
+}
+
+.radio-toolbar label:hover {
+    background-color: #dfd;
+}
+
+.radio-toolbar input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.radio-toolbar input[type="radio"]:checked + label {
+    background-color: #bfb;
+    border-color: #4c4;
+}

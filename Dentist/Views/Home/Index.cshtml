@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="main_sec">
+    <div class="left_sec">
+        <img src="~/Images/logo.jpeg" />
+    </div>
+    <div class="line_divider"></div>
+    <div class="right_sec">
+        <div class="right_nav_Sec">
+            <div class="date">
+                <input type="date" id="date" name="date">
+                <p>:תַאֲרִיך</p>
+            </div>
+            <div class="name">
+                <input type="text" />
+                <p>:שֵׁם</p>
+            </div>
+        </div>
+        <div class="right_nav_main">
+           
+            <div id="requirements">
+                
+                <div id="requirements-list">
+
+                </div>
+
+                <button id="addReq" class="btn-primary">+Add Requirement</button>
+               
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="modal-window-requirement" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="radio-toolbar">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-window" class="modal fade" tabindex="-1">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Modal Title</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <label id="row-text"></label>
+            <br>
+            <label>Area List</label>
+            <select id="area-list">
+                <option></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            <br>
+            <input type="number" /> ____ <input type="number" />
+
+            <label>Treatment List</label>
+            <select id="treatmentList">
+                <option></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+
+            <br />
+
+            <label>Notes</label>
+            <select id="Notes">
+                <option></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <textarea id="Note"></textarea>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Save Row</button>
+        </div>
+    </div>
+</div>
+</div>
+@section Scripts{
+<script src="~/Scripts/App/index.js"></script>
+}
+
