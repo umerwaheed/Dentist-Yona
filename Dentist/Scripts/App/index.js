@@ -57,7 +57,20 @@
             Index.addRequirement(this.value);
         });
 
+        $("#patient-name-input").on("input",
+            function() {
+                $("#patient-name").text($("#patient-name-input").val());
+            });
+
+        $("#date").on("change",
+            function () {
+                $("#patient-date").text($("#date").val());
+            });
+
+
         document.getElementById('date').valueAsDate = new Date();
+
+        $("#patient-date").text($("#date").val());
     }
 
     var unCheckAllRequirementList = function() {

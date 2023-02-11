@@ -177,6 +177,9 @@
     <Content Include="Images\black-elegant-criss-cross-background-free-vector.jpg" />
     <Content Include="Images\logo-bg.png" />
     <Content Include="Images\logo.jpeg" />
+    <Content Include="Images\nav-bg-1.jpg" />
+    <Content Include="Images\nav-bg-2.jpg" />
+    <Content Include="Images\nav-bg-3.jpg" />
     <Content Include="Scripts\App\index.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
