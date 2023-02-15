@@ -308,6 +308,15 @@ body {
     }
 }
 
+#requirements-list {
+    float: right;
+    margin-bottom: 50px;
+    font-size: 24px;
+}
+
+.add-row-btn {
+    margin: 0 0 0 90px
+}
 
 .right_sec_body {
     margin-top: 15px;
@@ -344,4 +353,34 @@ body {
 .radio-toolbar input[type="radio"]:checked + label {
     background-color: #bfb;
     border-color: #4c4;
+}
+
+
+
+.row-section {
+    margin-top: 30px;
+}
+
+.tooth-input {
+    width: 50px;
+    height: 50px;
+}
+
+.tnp {
+    margin-top: 15px
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.pointer-hover {
+    cursor: pointer
 }

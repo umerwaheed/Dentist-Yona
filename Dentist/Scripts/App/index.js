@@ -1,6 +1,9 @@
 ﻿var Index = (function () {
     var data = null;
     var requirementListId = 1;
+    var rows = [];
+    var changeReqRowId = null;
+    var rowId = 1;
     var init = function() {
         
         Index.getAppData();
@@ -22,13 +25,85 @@
     };
 
     var fillData = function () {
-
-
         Index.createRequirementRadioButtons();
+        Index.fillRowModalData();
 
         Index.bindPageEvents();
     }
 
+
+    var fillRowModalData = function() {
+
+        var rightHeaderOptionHtml = "";
+        var CenterHeaderOptionHtml = "";
+        var ArealistOptionHtml = "";
+        var treatmentListOptionHtml = "";
+        var notesOptionHtml = "";
+
+        for (var i = 0; i < Index.data.AlignRightHeader.length; i++) {
+            rightHeaderOptionHtml = rightHeaderOptionHtml + "<option value='" + Index.data.AlignRightHeader[i]+"'>" + Index.data.AlignRightHeader[i]+"</option>";
+        }
+
+        for (var i = 0; i < Index.data.CenterHeader.length; i++) {
+            CenterHeaderOptionHtml = CenterHeaderOptionHtml + "<option value='" + Index.data.CenterHeader[i] + "'>" + Index.data.CenterHeader[i] + "</option>";
+        }
+
+        for (var i = 0; i < Index.data.AlignRightHeader.length; i++) {
+            ArealistOptionHtml = ArealistOptionHtml + "<option value='" + Index.data.AreaList[i] + "'>" + Index.data.AreaList[i] + "</option>";
+        }
+
+        for (var i = 0; i < Index.data.TreatmentList.length; i++) {
+            treatmentListOptionHtml = treatmentListOptionHtml + "<option value='" + Index.data.TreatmentList[i].Name + "'>" + Index.data.TreatmentList[i].Name + "</option>";
+        }
+
+        for (var i = 0; i < Index.data.Notes.length; i++) {
+            notesOptionHtml = notesOptionHtml + "<option value='" + Index.data.Notes[i] + "'>" + Index.data.Notes[i] + "</option>";
+        }
+
+        $("#rightHeader").append(rightHeaderOptionHtml);
+        $("#centerHeader").append(CenterHeaderOptionHtml);
+        $("#araList").append(ArealistOptionHtml);
+        $("#treatmentList").append(treatmentListOptionHtml);
+        $("#notes").append(notesOptionHtml);
+
+        $("#araList").on("change",
+            function() {
+                Index.populateRowViewerData();
+            });
+
+        $("#tooth1").on("input",
+            function() {
+                Index.populateRowViewerData();
+            });
+
+        $("#tooth2").on("input",
+            function () {
+                Index.populateRowViewerData();
+            });
+
+        $("#treatmentList").on("change",
+            function () {
+                Index.populateRowViewerData();
+            });
+    }
+
+    var populateRowViewerData = function() {
+        var areaList = $("#araList").val();
+        var tooth1 = $("#tooth1").val();
+        var tooth2 = $("#tooth2").val();
+        var treatmentList = $("#treatmentList").val();
+
+        var toothText = '';
+        if (tooth1) {
+            if (tooth2) {
+                toothText = tooth1 + " - " + tooth2 + " שן";
+            } else {
+                toothText = tooth1  + " שן";
+            }
+        }
+
+        $("#final-row-text").text("( " + treatmentList + " " + toothText + areaList+" )");
+    }
 
     var createRequirementRadioButtons = function() {
         var html = "";
@@ -54,7 +129,16 @@
 
         $('input[type=radio][name=radioReq]').change(function () {
             $("#modal-window-requirement").modal('hide');
-            Index.addRequirement(this.value);
+
+            if (changeReqRowId) {
+                var row = rows.filter(x => x.id === changeReqRowId)[0];
+                row.reqName = this.value;
+                changeReqRowId = null;
+                Index.drawPerscription();
+            } else {
+                Index.addRequirement(this.value);
+            }
+            
         });
 
         $("#patient-name-input").on("input",
@@ -71,7 +155,47 @@
         document.getElementById('date').valueAsDate = new Date();
 
         $("#patient-date").text($("#date").val());
+
+        $("#saveRow").on("click",
+            function () {
+                Index.addRow();
+            });
+
+
+        $("#print").on("click",
+            function() {
+                Index.printDocument();
+            });
     }
+
+    var printDocument = function() {
+
+        var printContents = document.getElementById("print-data").innerHTML;
+        var myWindow = window.open('', '', 'width=1500,height=800');
+
+        var cssUrl = window.location.origin + "/Content/print.css";
+
+        var html = "";
+        html = html + "<html>";
+        html = html + "<head>";
+        html = html +
+            "<link rel='stylesheet' href='" + cssUrl + "' type='text/css' />";
+        html = html + "</head>";
+        html = html + "<body>";
+        html = html + "<div class='left_sec_print'>";
+        html = html + printContents;
+        html = html + "</div>";
+        html = html + "</body>";
+        html = html + "</html>";
+
+
+        myWindow.document.write(html);
+
+        myWindow.document.close(); //missing code
+
+        myWindow.focus();
+        myWindow.print();
+    };
 
     var unCheckAllRequirementList = function() {
         for (var i = 1; i <= 3; i++) {
@@ -82,14 +206,16 @@
     var addRequirement = function(text) {
 
         var html = "";
-        html = html + "<label>" + text + "</label><br>";
-        html = html + "<button id='add-row-" + requirementListId+"'>Add Row</button><br>";
+        html = html + "<label>" + text + "</label>";
+        html = html + "<button class='add-row-btn btn-primary' id='add-row-" + requirementListId+"'>Add Row</button><br>";
 
         $("#requirements-list").append(html);
 
         Index.bindAddRowButton(requirementListId);
 
         requirementListId = requirementListId + 1;
+
+        Index.addRow(text);
     };
 
     var bindAddRowButton = function(id) {
@@ -101,11 +227,128 @@
 
     var bindRequirementEvent = function(id) {
         $("#" + id).on("change", function () {
-            debugger;
             Index.insertAddRowButton(id);
             Index.addRequirement();
         });
     };
+
+
+    var addRow = function(reqName) {
+        var isReq = false;
+        if (reqName) {
+            isReq = true;
+        }
+
+        var tooth1 = $("#tooth1").val();
+        var tooth2 = $("#tooth2").val();
+        var treatmentList = $("#treatmentList").val();
+
+        if (changeReqRowId) {
+
+            var row = rows.filter(x => x.id === changeReqRowId)[0];
+
+            row.areaList = $("#araList").val();
+            changeReqRowId = null;
+        } else {
+            rows.push({
+                id: rowId,
+                isReq: isReq,
+                reqName: reqName,
+                areaList: $("#araList").val(),
+                tooth1: tooth1,
+                tooth2: tooth2,
+                treatment: treatmentList,
+            });
+
+            rowId = rowId + 1;
+        }
+
+        Index.drawPerscription();
+    }
+
+    var drawPerscription = function () {
+
+        $("#perscription").html('');
+
+        for (var i = 0; i < rows.length; i++) {
+
+            if (rows[i].isReq) {
+                var reqHtml = "";
+
+                reqHtml = reqHtml + "<div class='left_title_sec'>";
+                reqHtml = reqHtml + " <h3 onClick='Index.changeReq(" + rows[i].id +")' class='pointer-hover'>" + rows[i].reqName +"</h3>";
+                reqHtml = reqHtml + " </div>";
+
+                $("#perscription").append(reqHtml);
+            }
+
+            if (rows[i].areaList) {
+                var areaListHtml = "";
+
+                areaListHtml = areaListHtml + " <div  class='left_list'>";
+                areaListHtml = areaListHtml + "<h3 onClick='Index.changeRow(" + rows[i].id +")' class='pointer-hover'>" + rows[i].areaList +"</h3> <ul id='req-list-1'></ul>";
+                areaListHtml = areaListHtml + "</div>";
+
+                $("#perscription").append(areaListHtml);
+                    
+            }
+
+            var treatmentText = '';
+
+            if (rows[i].tooth1) {
+                treatmentText = treatmentText + rows[i].tooth1 + "שן";
+            }
+
+            if (rows[i].tooth2) {
+                treatmentText = treatmentText + rows[i].tooth2 + "שן";
+            }
+
+            if (rows[i].treatment) {
+                treatmentText = treatmentText + rows[i].treatment;
+            }
+
+            if (treatmentText) {
+                var rowHtml = "";
+                rowHtml = rowHtml + "<li>";
+                rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
+                rowHtml = rowHtml + "3,500 ש'ח";
+                rowHtml = rowHtml + " </p>";
+                rowHtml = rowHtml + "<p onClick='Index.changeRow(" + rows[i].id +")' class='pointer-hover' lang='he' dir='rtl'>";
+                rowHtml = rowHtml + treatmentText;
+                rowHtml = rowHtml + " </p>";
+                rowHtml = rowHtml + "</li>";
+
+                $("#req-list-1").append(rowHtml);
+            }
+           
+        }
+
+        Index.resetDialog();
+    }
+
+    var resetDialog = function () {
+        $("#final-row-text").text('');
+        $("#araList").val('');
+    }
+
+    var changeReq = function (rowId) {
+        Index.unCheckAllRequirementList();
+        changeReqRowId = rowId;
+
+        $("#modal-window-requirement").modal('show');
+    }
+
+    var changeRow = function (rowId) {
+        changeReqRowId = rowId;
+
+        var row = rows.filter(x => x.id === rowId)[0];
+
+        if (row.areaList) {
+            $("#araList").val(row.areaList);
+        }
+        $("#final-row-text").text("( " + row.areaList + " )");
+        $("#modal-window").modal('show');
+    }
 
     return {
         init: init,
@@ -115,8 +358,16 @@
         bindPageEvents: bindPageEvents,
         unCheckAllRequirementList: unCheckAllRequirementList,
         createRequirementRadioButtons: createRequirementRadioButtons,
+        addRow: addRow,
+        changeReq: changeReq,
+        changeRow: changeRow,
         getAppData: getAppData,
         fillData: fillData,
+        fillRowModalData: fillRowModalData,
+        drawPerscription: drawPerscription,
+        populateRowViewerData: populateRowViewerData,
+        resetDialog: resetDialog,
+        printDocument: printDocument,
         data: data
     }
 })();
