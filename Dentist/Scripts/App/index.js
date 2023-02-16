@@ -81,6 +81,11 @@
                 Index.populateRowViewerData();
             });
 
+        $("#notes").on("change",
+            function() {
+                $("#notesArea").val(this.value);
+            });
+
         $("#treatmentCategory").on("change",
             function () {
                 var treatmentList = Index.data.TreatmentCategory.filter(x => x.Name === this.value)[0].TreatmentDetails;
@@ -90,13 +95,22 @@
                     treatmentListHtml = treatmentListHtml + "<option value='" + treatmentList[i].Name + "'>" + treatmentList[i].Name + "</option>";
                 }
                 $("#treatmentList").html(treatmentListHtml);
+                Index.setPrice();
                 Index.populateRowViewerData();
             });
 
         $("#treatmentList").on("change",
             function () {
+                Index.setPrice();
+
                 Index.populateRowViewerData();
             });
+    }
+
+    var setPrice = function() {
+        var treatementCost = Index.data.TreatmentList.filter(x => x.Name === $("#treatmentList").val())[0].Cost;
+
+        $("#price").val(treatementCost);
     }
 
     var populateRowViewerData = function() {
@@ -255,6 +269,8 @@
         var tooth2 = $("#tooth2").val();
         var treatmentList = $("#treatmentList").val();
         var category = $("#treatmentCategory").val();
+        var price = $("#price").val();
+        var notes = $("#notesArea").val();
 
         if (changeReqRowId) {
 
@@ -271,7 +287,9 @@
                 tooth1: tooth1,
                 tooth2: tooth2,
                 treatment: treatmentList,
-                cateogry: category
+                category: category,
+                price: price,
+                notes: notes
         });
 
             rowId = rowId + 1;
@@ -325,12 +343,19 @@
                 var rowHtml = "";
                 rowHtml = rowHtml + "<li>";
                 rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
-                rowHtml = rowHtml + "3,500 ש'ח";
+                rowHtml = rowHtml + rows[i].price + "ש'ח";
                 rowHtml = rowHtml + " </p>";
                 rowHtml = rowHtml + "<p onClick='Index.changeRow(" + rows[i].id +")' class='pointer-hover' lang='he' dir='rtl'>";
                 rowHtml = rowHtml + treatmentText;
-                rowHtml = rowHtml + " </p>";
                 rowHtml = rowHtml + "</li>";
+
+                var notes = rows[i].notes;
+                if (notes) {
+                    rowHtml = rowHtml + "<li>";
+                    rowHtml = rowHtml + " </p>";
+                    rowHtml = rowHtml + "<p class='notes'>" + rows[i].notes + "</p>";
+                    rowHtml = rowHtml + "</li>";
+                }
 
                 $("#req-list-1").append(rowHtml);
             }
@@ -382,6 +407,7 @@
         populateRowViewerData: populateRowViewerData,
         resetDialog: resetDialog,
         printDocument: printDocument,
+        setPrice: setPrice,
         data: data
     }
 })();
