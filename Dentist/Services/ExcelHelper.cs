@@ -48,14 +48,15 @@ namespace Dentist.Services
 
             objWB.Close();
             objXL.Quit();
-
+            
 
             DataCache.AreaList = dt.AsEnumerable().Select(r => r.Field<string>("AREA LIST")).ToList();
             DataCache.CenterHeader = dt.AsEnumerable().Select(r => r.Field<string>("CENTER HEADER")).ToList();
             DataCache.AlignRightHeader = dt.AsEnumerable().Select(r => r.Field<string>("ALIGN RIGHT HEADER")).ToList();
             DataCache.RequirementList = dt.AsEnumerable().Select(r => r.Field<string>("requirements LIST")).ToList();
             DataCache.TreatmentList = dt.AsEnumerable().Select(r => r.Field<string>("TREATMENT LIST")).ToList();
-            DataCache.TreatmentScore = dt.AsEnumerable().Select(r => r.Field<string>("TREATMENT SCORE")).ToList();
+            DataCache.TreatmentCategory = dt.AsEnumerable().Select(r => r.Field<string>("Column1")).ToList();
+            DataCache.TreatmentPrice = dt.AsEnumerable().Select(r => r.Field<string>("TREATMENT PRICE")).ToList();
             DataCache.Notes = dt.AsEnumerable().Select(r => r.Field<string>("Note")).ToList();
         }
 

@@ -12,55 +12,7 @@
                 <p id="patient-name"></p>
             </div>
             <div id="perscription">
-                <div class="left_title_sec">
-                    <h3>תוכנית טיפול</h3>
-                    <p>שיננית יסודי 200 ש"ח </p>
-                </div>
-                <div class="left_list">
-                    <h3>ימין למעלה</h3>
-                    <ul>
-                        <li>
-                            <p lang="he" dir="rtl">
-                                3,500 ש"ח
-                            </p>
-                            <p lang="he" dir="rtl">
-                                שן 17 טש, מבנה וכתר חרסינה
-                            </p>
-                        </li>
-                        <li>
-                            <p lang="he" dir="rtl">
-                                450 ש"ח
-                            </p>
-                            <p lang="he" dir="rtl">
-                                שן 16 סתימה עמוקה
-                            </p>
-                        </li>
-                        <li>
-                            <p lang="he" dir="rtl">
-                                450 ש"ח
-                            </p>
-                            <p lang="he" dir="rtl">
-                                שן 15 סתימה עמוקה
-                            </p>
-                        </li>
-                        <li>
-                            <p lang="he" dir="rtl">
-                                400 ש"ח
-                            </p>
-                            <p lang="he" dir="rtl">
-                                שן 14סתימה
-                            </p>
-                        </li>
-                        <li>
-                            <p lang="he" dir="rtl">
-                                400 ש"ח
-                            </p>
-                            <p lang="he" dir="rtl">
-                                שן 13 סתימה
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                
             </div>
             
         </div>
@@ -158,14 +110,20 @@
             <div class="row row-section">
                 <div class="col-md-2">
                     <label>Tooth No.</label>
-                    <input type="number" id="tooth1" class="form-control tooth-input"/>
+                    <input type="number" id="tooth1" class="form-control tooth-input" />
                 </div>
                 <div class="col-md-2">
                     <label>Tooth No.</label>
-                    <input type="number" id="tooth2" class="form-control tooth-input"/>
+                    <input type="number" id="tooth2" class="form-control tooth-input" />
                 </div>
-                
-                <div class="col-md-8">
+
+                <div class="col-md-4">
+                    <label>Treatment Category</label>
+                    <select id="treatmentCategory" class="form-control">
+                        <option value="">Select an Option</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
                     <label>Treatment List</label>
                     <select id="treatmentList" class="form-control">
                         <option value="">Select an Option</option>

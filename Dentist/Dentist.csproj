@@ -157,6 +157,7 @@
     <Compile Include="Cache\DataCache.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DTOs\AppDataDto.cs" />
+    <Compile Include="DTOs\TreatmentCateogoryDto.cs" />
     <Compile Include="DTOs\TreatmentDetailsDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

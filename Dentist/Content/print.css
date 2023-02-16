@@ -1,4 +1,19 @@
-﻿.left_sec_print {
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    background-color: #F1F5F8;
+}
+
+.left_sec_print {
+    margin: 20px;
     display: flex;
     flex-direction: column;
     width: 21cm;
@@ -8,24 +23,31 @@
     border-radius: 5px;
     background: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    
 }
 
 .left_sec_print img {
-        width: 300px;
-        object-fit: contain;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    width: 300px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .left_sec_print .left_name_date {
     display: flex;
     justify-content: space-between;
 }
 
-.left_name_date p, .left_sec_print .left_title_sec h3 {
-    font-weight: 700;
-    font-size: 2.3rem;
+.left_name_date p {
+    font-weight: 600;
+    font-size: 1.7rem;
+    border-bottom: 2px solid #5DB2FF;
+    color: #5DB2FF;
+    width: fit-content;
+}
+
+.left_sec_print .left_title_sec h3 {
+    font-weight: 600;
+    font-size: 1.7rem;
     border-bottom: 2px solid black;
     width: fit-content;
 }
@@ -36,8 +58,8 @@
 }
 
 .left_list h3 {
-    font-weight: 700;
-    font-size: 2.3rem;
+    font-weight: 600;
+    font-size: 1.7rem;
     border-bottom: 2px solid black;
     width: fit-content;
     position: relative;
@@ -52,7 +74,7 @@
 .left_list ul {
     list-style: none;
     margin-top: 10px;
-    font-size: 2.2rem;
+    font-size: 1.5rem;
 }
 
 .left_list ul li {
@@ -73,5 +95,5 @@
 }
 
 .left_sec_print .left_title_sec p {
-    font-size: 2.3rem;
+    font-size: 1.5rem;
 }

@@ -12,7 +12,8 @@ namespace Dentist.Cache
         public static List<string> AlignRightHeader = new List<string>();
         public static List<string> RequirementList = new List<string>();
         public static List<string> TreatmentList = new List<string>();
-        public static List<string> TreatmentScore = new List<string>();
+        public static List<string> TreatmentPrice = new List<string>();
+        public static List<string> TreatmentCategory = new List<string>();
         public static List<string> Notes = new List<string>();
     }
 }

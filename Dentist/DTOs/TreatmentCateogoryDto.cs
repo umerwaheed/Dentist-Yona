@@ -5,10 +5,14 @@ using System.Web;
 
 namespace Dentist.DTOs
 {
-    public class TreatmentDetailsDto
+    public class TreatmentCategoryDto
     {
-        public string Category { get; set; }
         public string Name { get; set; }
-        public decimal Cost { get; set; }
+
+        public List<TreatmentDetailsDto> TreatmentDetails
+        {
+            get;
+            set;
+        }
     }
 }

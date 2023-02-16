@@ -37,7 +37,7 @@
         var rightHeaderOptionHtml = "";
         var CenterHeaderOptionHtml = "";
         var ArealistOptionHtml = "";
-        var treatmentListOptionHtml = "";
+        var treatmentCategoryOptionHtml = "";
         var notesOptionHtml = "";
 
         for (var i = 0; i < Index.data.AlignRightHeader.length; i++) {
@@ -52,8 +52,8 @@
             ArealistOptionHtml = ArealistOptionHtml + "<option value='" + Index.data.AreaList[i] + "'>" + Index.data.AreaList[i] + "</option>";
         }
 
-        for (var i = 0; i < Index.data.TreatmentList.length; i++) {
-            treatmentListOptionHtml = treatmentListOptionHtml + "<option value='" + Index.data.TreatmentList[i].Name + "'>" + Index.data.TreatmentList[i].Name + "</option>";
+        for (var i = 0; i < Index.data.TreatmentCategory.length; i++) {
+            treatmentCategoryOptionHtml = treatmentCategoryOptionHtml + "<option value='" + Index.data.TreatmentCategory[i].Name + "'>" + Index.data.TreatmentCategory[i].Name + "</option>";
         }
 
         for (var i = 0; i < Index.data.Notes.length; i++) {
@@ -63,7 +63,7 @@
         $("#rightHeader").append(rightHeaderOptionHtml);
         $("#centerHeader").append(CenterHeaderOptionHtml);
         $("#araList").append(ArealistOptionHtml);
-        $("#treatmentList").append(treatmentListOptionHtml);
+        $("#treatmentCategory").append(treatmentCategoryOptionHtml);
         $("#notes").append(notesOptionHtml);
 
         $("#araList").on("change",
@@ -78,6 +78,18 @@
 
         $("#tooth2").on("input",
             function () {
+                Index.populateRowViewerData();
+            });
+
+        $("#treatmentCategory").on("change",
+            function () {
+                var treatmentList = Index.data.TreatmentCategory.filter(x => x.Name === this.value)[0].TreatmentDetails;
+
+                var treatmentListHtml = "";
+                for (var i = 0; i < treatmentList.length; i++) {
+                    treatmentListHtml = treatmentListHtml + "<option value='" + treatmentList[i].Name + "'>" + treatmentList[i].Name + "</option>";
+                }
+                $("#treatmentList").html(treatmentListHtml);
                 Index.populateRowViewerData();
             });
 
@@ -242,6 +254,7 @@
         var tooth1 = $("#tooth1").val();
         var tooth2 = $("#tooth2").val();
         var treatmentList = $("#treatmentList").val();
+        var category = $("#treatmentCategory").val();
 
         if (changeReqRowId) {
 
@@ -258,7 +271,8 @@
                 tooth1: tooth1,
                 tooth2: tooth2,
                 treatment: treatmentList,
-            });
+                cateogry: category
+        });
 
             rowId = rowId + 1;
         }
