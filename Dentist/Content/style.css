@@ -169,6 +169,7 @@ body {
 .left_sec_print .left_title_sec {
     margin-left: auto;
     margin-right: auto;
+   
     text-align: center;
 }
 
@@ -180,6 +181,11 @@ body {
     .left_sec_print .left_title_sec p {
         font-size: 2.3rem;
     }
+
+.left_sec_print .left_title_sec h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
 .main_sec .right_sec {
     width: 50%;
@@ -388,4 +394,9 @@ input[type=number] {
 
 .pointer-hover {
     cursor: pointer
+}
+
+.margin-less {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important
 }

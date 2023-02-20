@@ -37,14 +37,112 @@
 
                     </div>
                 </div>
-                
                 <div class="row">
                     <button id="addReq" class="btn-primary">+Add Requirement</button>
                 </div>
 
-                
+            </div>
+            
+            <div id="add-row-content" class="modal-content" style="margin-top: 50px;">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p dir="rtl" lang="he" id="final-row-text">()</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Align Right Header</label>
+                            <select id="rightHeader" class="form-control">
+                                <option value="">Select an Option</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Center header</label>
+                            <select id="centerHeader" class="form-control">
+                                <option value="">Select an Option</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Area List</label>
+                            <select id="araList" class="form-control">
+                                <option value="">Select an Option</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row row-section">
+                        <div class="col-md-2">
+                            <label>Tooth No.</label>
+                            <input type="number" id="tooth1" class="form-control tooth-input" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Tooth No.</label>
+                            <input type="number" id="tooth2" class="form-control tooth-input" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Treatment Category</label>
+                            <select id="treatmentCategory" class="form-control">
+                                <option value="">Select an Option</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Treatment List</label>
+                            <select id="treatmentList" class="form-control">
+                                <option value="">Select an Option</option>
+                            </select>
+                        </div>
 
 
+                    </div>
+
+                    <div class="row row-section">
+
+                        <div class="col-md-4">
+                            <label>Write Notes</label>
+                            <textarea id="notesArea" style="width: 310px" dir="rtl" rows="5"></textarea>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="col-md-6">
+                                <label>Notes</label>
+                                <select id="notes" class="form-control">
+                                    <option>Select an Option</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Price</label>
+                                <input id="price" type="number" class="form-control" />
+                            </div>
+
+                            <div class="col-md-2 tnp">
+                                <label>T</label>
+                                <input class="form-control" />
+                            </div>
+
+                            <div class="col-md-2 tnp">
+                                <label>N</label>
+                                <input class="form-control" />
+                            </div>
+
+                            <div class="col-md-2 tnp">
+                                <label>P</label>
+                                <input class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelRow" type="button" style="margin-right: 80px; margin-top: 6px;" class="btn btn-danger">Cancel</button>
+                    <button id="saveRow" type="button" class="btn btn-primary">Save Row</button>
+                </div>
             </div>
 
 
@@ -63,8 +161,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
+                <div>
+                    <button id="del-req" style="padding: 5px; display: none;" class="btn-danger">Delete Requirement</button>
+                </div>
                 <div class="radio-toolbar">
                 </div>
+
             </div>
         </div>
     </div>
@@ -72,111 +174,7 @@
 
 <div id="modal-window" class="modal fade" tabindex="-1">
 <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Modal Title</h5>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <p dir="rtl" lang="he" id="final-row-text">()</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4">
-                    <label>Align Right Header</label>
-                    <select id="rightHeader" class="form-control">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label>Center header</label>
-                    <select id="centerHeader" class="form-control">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-4">
-                    <label>Area List</label>
-                    <select id="araList" class="form-control">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row row-section">
-                <div class="col-md-2">
-                    <label>Tooth No.</label>
-                    <input type="number" id="tooth1" class="form-control tooth-input" />
-                </div>
-                <div class="col-md-2">
-                    <label>Tooth No.</label>
-                    <input type="number" id="tooth2" class="form-control tooth-input" />
-                </div>
-
-                <div class="col-md-4">
-                    <label>Treatment Category</label>
-                    <select id="treatmentCategory" class="form-control">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label>Treatment List</label>
-                    <select id="treatmentList" class="form-control">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-
-
-            </div>
-            
-            <div class="row row-section">
-                
-                <div class="col-md-4">
-                    <label>Write Notes</label>
-                    <textarea id="notesArea" dir="rtl" rows="5"></textarea>
-                </div>
-                
-                <div class="col-md-8">
-                    <div class="col-md-6">
-                        <label>Notes</label>
-                        <select id="notes" class="form-control">
-                            <option>Select an Option</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label>Price</label>
-                        <input id="price" type="number" class="form-control" />
-                    </div>
-
-                    <div class="col-md-2 tnp">
-                        <label>T</label>
-                        <input class="form-control" />
-                    </div>
-
-                    <div class="col-md-2 tnp">
-                        <label>N</label>
-                        <input class="form-control" />
-                    </div>
-
-                    <div class="col-md-2 tnp">
-                        <label>P</label>
-                        <input class="form-control" />
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button id="saveRow" type="button" class="btn btn-primary">Save Row</button>
-        </div>
-    </div>
+    
 </div>
 </div>
 @section Scripts{

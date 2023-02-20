@@ -2,6 +2,7 @@
     var data = null;
     var requirementListId = 1;
     var rows = [];
+    var areaListData = [];
     var changeReqRowId = null;
     var rowId = 1;
     var init = function() {
@@ -155,7 +156,7 @@
 
         $('input[type=radio][name=radioReq]').change(function () {
             $("#modal-window-requirement").modal('hide');
-
+            $("#del-req").hide();
             if (changeReqRowId) {
                 var row = rows.filter(x => x.id === changeReqRowId)[0];
                 row.reqName = this.value;
@@ -187,12 +188,29 @@
                 Index.addRow();
             });
 
+        $("#cancelRow").on("click",
+            function () {
+
+            });
 
         $("#print").on("click",
             function() {
                 Index.printDocument();
             });
+
+        $("#del-req").on("click",
+            function() {
+                Index.deleteRow(changeReqRowId);
+                changeReqRowId = null;
+                $("#modal-window-requirement").modal('hide');
+                $("#del-req").hide();
+            });
     }
+
+    var deleteRow = function(rowId) {
+        rows = rows.filter(x => x.id !== rowId);
+        Index.drawPerscription();
+    };
 
     var printDocument = function() {
 
@@ -231,25 +249,11 @@
     
     var addRequirement = function(text) {
 
-        var html = "";
-        html = html + "<label>" + text + "</label>";
-        html = html + "<button class='add-row-btn btn-primary' id='add-row-" + requirementListId+"'>Add Row</button><br>";
-
-        $("#requirements-list").append(html);
-
-        Index.bindAddRowButton(requirementListId);
-
         requirementListId = requirementListId + 1;
 
         Index.addRow(text);
     };
 
-    var bindAddRowButton = function(id) {
-        $("#add-row-" + id).on("click",
-            function() {
-                $("#modal-window").modal('show');
-            });
-    }
 
     var bindRequirementEvent = function(id) {
         $("#" + id).on("change", function () {
@@ -271,6 +275,16 @@
         var category = $("#treatmentCategory").val();
         var price = $("#price").val();
         var notes = $("#notesArea").val();
+        var areaList = $("#araList").val();
+
+        if (!areaList) {
+            areaList = "_" + rowId;
+        }
+
+        if (areaListData.filter(x => x === areaList).length === 0) {
+            areaListData.push(areaList);
+        }
+        
 
         if (changeReqRowId) {
 
@@ -283,7 +297,7 @@
                 id: rowId,
                 isReq: isReq,
                 reqName: reqName,
-                areaList: $("#araList").val(),
+                areaList: areaList,
                 tooth1: tooth1,
                 tooth2: tooth2,
                 treatment: treatmentList,
@@ -298,70 +312,103 @@
         Index.drawPerscription();
     }
 
-    var drawPerscription = function () {
+    var drawPerscription = function() {
 
         $("#perscription").html('');
 
-        for (var i = 0; i < rows.length; i++) {
+        var reqRows = rows.filter(x => x.isReq === true);
+        var dataRows = rows.filter(x => x.isReq === false)
 
-            if (rows[i].isReq) {
-                var reqHtml = "";
 
-                reqHtml = reqHtml + "<div class='left_title_sec'>";
-                reqHtml = reqHtml + " <h3 onClick='Index.changeReq(" + rows[i].id +")' class='pointer-hover'>" + rows[i].reqName +"</h3>";
-                reqHtml = reqHtml + " </div>";
+        for (var j = 0; j < reqRows.length; j++) {
+            var reqHtml = "";
 
-                $("#perscription").append(reqHtml);
-            }
+            reqHtml = reqHtml + "<div class='left_title_sec'>";
+            reqHtml = reqHtml +
+                " <h3 onClick='Index.changeReq(" +
+                reqRows[j].id +
+                ")' class='pointer-hover'>" +
+                reqRows[j].reqName +
+                "</h3>";
+            reqHtml = reqHtml + " </div>";
 
-            if (rows[i].areaList) {
-                var areaListHtml = "";
-
-                areaListHtml = areaListHtml + " <div  class='left_list'>";
-                areaListHtml = areaListHtml + "<h3 onClick='Index.changeRow(" + rows[i].id +")' class='pointer-hover'>" + rows[i].areaList +"</h3> <ul id='req-list-1'></ul>";
-                areaListHtml = areaListHtml + "</div>";
-
-                $("#perscription").append(areaListHtml);
-                    
-            }
-
-            var treatmentText = '';
-
-            if (rows[i].tooth1) {
-                treatmentText = treatmentText + rows[i].tooth1 + "שן";
-            }
-
-            if (rows[i].tooth2) {
-                treatmentText = treatmentText + rows[i].tooth2 + "שן";
-            }
-
-            if (rows[i].treatment) {
-                treatmentText = treatmentText + rows[i].treatment;
-            }
-
-            if (treatmentText) {
-                var rowHtml = "";
-                rowHtml = rowHtml + "<li>";
-                rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
-                rowHtml = rowHtml + rows[i].price + "ש'ח";
-                rowHtml = rowHtml + " </p>";
-                rowHtml = rowHtml + "<p onClick='Index.changeRow(" + rows[i].id +")' class='pointer-hover' lang='he' dir='rtl'>";
-                rowHtml = rowHtml + treatmentText;
-                rowHtml = rowHtml + "</li>";
-
-                var notes = rows[i].notes;
-                if (notes) {
-                    rowHtml = rowHtml + "<li>";
-                    rowHtml = rowHtml + " </p>";
-                    rowHtml = rowHtml + "<p class='notes'>" + rows[i].notes + "</p>";
-                    rowHtml = rowHtml + "</li>";
-                }
-
-                $("#req-list-1").append(rowHtml);
-            }
-           
+            $("#perscription").append(reqHtml);
         }
 
+        dataRows = Index.groupBy(dataRows, "areaList");
+
+        for (var k = 0; k < areaListData.length; k++) {
+            var data = dataRows[areaListData[k]];
+
+            var areaListHtml = "";
+
+            var areaListTitle = areaListData[k];
+            if (areaListData[k][0] === "_") {
+                areaListTitle = "";
+            }
+
+            var areaListId = "area-list-" + k;
+
+            areaListHtml = areaListHtml + " <div  class='left_list'>";
+            if (areaListTitle) {
+                areaListHtml =
+                    areaListHtml +
+                    "<h3  class='pointer-hover'>" +
+                    areaListTitle +
+                    "</h3> <ul id='" +
+                    areaListId +
+                    "'></ul>";
+            } else {
+                areaListHtml =
+                    areaListHtml + "<ul class='margin-less' id='" + areaListId + "'></ul>";
+            }
+           
+            areaListHtml = areaListHtml + "</div>";
+            //"<h3 onClick='Index.changeRow(" + dataRows[i].id + ")' class='pointer-hover'>" + dataRows[i].areaList +"</h3> <ul id='req-list-1'></ul>";
+            $("#perscription").append(areaListHtml);
+            if (data) {
+                for (var d = 0; d < data.length; d++) {
+                    var treatmentText = '';
+
+                    if (data[d].tooth1) {
+                        treatmentText = treatmentText + data[d].tooth1 + "שן";
+                    }
+
+                    if (data[d].tooth2) {
+                        treatmentText = treatmentText + data[d].tooth2 + "שן";
+                    }
+
+                    if (data[d].treatment) {
+                        treatmentText = treatmentText + data[d].treatment;
+                    }
+
+                    if (treatmentText) {
+                        var rowHtml = "";
+                        rowHtml = rowHtml + "<li>";
+                        rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
+                        rowHtml = rowHtml + data[d].price + "ש'ח";
+                        rowHtml = rowHtml + " </p>";
+                        rowHtml = rowHtml +
+                            "<p onClick='Index.changeRow(" +
+                            data[d].id +
+                            ")' class='pointer-hover' lang='he' dir='rtl'>";
+                        rowHtml = rowHtml + treatmentText;
+                        rowHtml = rowHtml + "</li>";
+
+                        var notes = data[d].notes;
+                        if (notes) {
+                            rowHtml = rowHtml + "<li>";
+                            rowHtml = rowHtml + " </p>";
+                            rowHtml = rowHtml + "<p class='notes'>" + data[d].notes + "</p>";
+                            rowHtml = rowHtml + "</li>";
+                        }
+
+                        $("#" + areaListId).append(rowHtml);
+                    }
+
+                }
+            }
+        }
         Index.resetDialog();
     }
 
@@ -373,7 +420,7 @@
     var changeReq = function (rowId) {
         Index.unCheckAllRequirementList();
         changeReqRowId = rowId;
-
+        $("#del-req").show();
         $("#modal-window-requirement").modal('show');
     }
 
@@ -386,18 +433,30 @@
             $("#araList").val(row.areaList);
         }
         $("#final-row-text").text("( " + row.areaList + " )");
-        $("#modal-window").modal('show');
+
     }
+
+    var groupBy = function(array, key) {
+        // Return the end result
+        return array.reduce((result, currentValue) => {
+            // If an array already present for key, push it to the array. Else create an array and push the object
+            (result[currentValue[key]] = result[currentValue[key]] || []).push(
+                currentValue
+            );
+            // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+            return result;
+        }, {}); // empty object is the initial value for result object
+    };
 
     return {
         init: init,
         addRequirement: addRequirement,
         bindRequirementEvent: bindRequirementEvent,
-        bindAddRowButton: bindAddRowButton,
         bindPageEvents: bindPageEvents,
         unCheckAllRequirementList: unCheckAllRequirementList,
         createRequirementRadioButtons: createRequirementRadioButtons,
         addRow: addRow,
+        groupBy: groupBy,
         changeReq: changeReq,
         changeRow: changeRow,
         getAppData: getAppData,
@@ -408,6 +467,7 @@
         resetDialog: resetDialog,
         printDocument: printDocument,
         setPrice: setPrice,
+        deleteRow: deleteRow,
         data: data
     }
 })();

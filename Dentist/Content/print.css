@@ -102,3 +102,9 @@ body {
 .left_sec_print .left_title_sec p {
     font-size: 1.5rem;
 }
+
+
+.margin-less {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important
+}
