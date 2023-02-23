@@ -342,8 +342,13 @@
                     rows[i].areaList = $("#araList").val();
                 }
             }
-
-            changeReqRowId = null;
+            row.tooth1 = tooth1;
+            row.tooth2 = tooth2;
+            row.treatment = treatmentList;
+            row.category = category;
+            row.price = price;
+            row.notes = notes;
+            row.tooth1 = tooth1;
         } else {
             areaListData.push(("_" + rowId));
             areaListDataIds.push(rowId);
