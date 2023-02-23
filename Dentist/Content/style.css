@@ -400,3 +400,9 @@ input[type=number] {
     margin-top: 0px !important;
     margin-bottom: 0px !important
 }
+
+.selected-row {
+    border: lightblue;
+    border-style: outset;
+}
+

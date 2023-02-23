@@ -3,6 +3,7 @@
     var requirementListId = 1;
     var rows = [];
     var areaListData = [];
+    var areaListDataIds = [];
     var changeReqRowId = null;
     var rowId = 1;
     var init = function() {
@@ -190,6 +191,7 @@
 
         $("#cancelRow").on("click",
             function () {
+                Index.resetDialog();
 
             });
 
@@ -205,11 +207,33 @@
                 $("#modal-window-requirement").modal('hide');
                 $("#del-req").hide();
             });
+
+        $("#delete-row-button").on("click",
+            function() {
+                Index.deleteRow(changeReqRowId);
+            });
     }
 
     var deleteRow = function(rowId) {
+        var delRow = rows.filter(x => x.id === changeReqRowId)[0];
+
+        if (delRow.isAreaList) {
+
+            var areaListName = delRow.areaList;
+
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].areaList === areaListName) {
+                    rows[i].areaList = null;
+                }
+            }
+
+            areaListData = areaListData.filter(x => x !== areaListName);
+            areaListDataIds = areaListDataIds.filter(x => x !== rowId);
+        }
+
         rows = rows.filter(x => x.id !== rowId);
         Index.drawPerscription();
+        Index.resetDialog();
     };
 
     var printDocument = function() {
@@ -282,7 +306,24 @@
         }
 
         if (areaListData.filter(x => x === areaList).length === 0) {
-            areaListData.push(areaList);
+            areaListData.push((areaList));
+            areaListDataIds.push(rowId);
+
+            rows.push({
+                id: rowId,
+                isReq: false,
+                reqName: null,
+                areaList: areaList,
+                isAreaList: true,
+                tooth1: null,
+                tooth2: null,
+                treatment: null,
+                category: null,
+                price: null,
+                notes: null
+            });
+
+            rowId = rowId + 1;
         }
         
 
@@ -310,6 +351,7 @@
         }
 
         Index.drawPerscription();
+        Index.resetDialog();
     }
 
     var drawPerscription = function() {
@@ -342,9 +384,11 @@
 
             var areaListHtml = "";
 
+            var className = "selected-row-" + areaListDataIds[k];
             var areaListTitle = areaListData[k];
             if (areaListData[k][0] === "_") {
                 areaListTitle = "";
+                className = "";
             }
 
             var areaListId = "area-list-" + k;
@@ -352,19 +396,14 @@
             areaListHtml = areaListHtml + " <div  class='left_list'>";
             if (areaListTitle) {
                 areaListHtml =
-                    areaListHtml +
-                    "<h3  class='pointer-hover'>" +
-                    areaListTitle +
-                    "</h3> <ul id='" +
-                    areaListId +
-                    "'></ul>";
+                    areaListHtml + "<h3 onClick='Index.changeRow(" + areaListDataIds[k] + ")'  class='pointer-hover " + className +"'>" + areaListTitle + "</h3> <ul id='" + areaListId + "'></ul>";
             } else {
                 areaListHtml =
                     areaListHtml + "<ul class='margin-less' id='" + areaListId + "'></ul>";
             }
            
             areaListHtml = areaListHtml + "</div>";
-            //"<h3 onClick='Index.changeRow(" + dataRows[i].id + ")' class='pointer-hover'>" + dataRows[i].areaList +"</h3> <ul id='req-list-1'></ul>";
+
             $("#perscription").append(areaListHtml);
             if (data) {
                 for (var d = 0; d < data.length; d++) {
@@ -384,7 +423,7 @@
 
                     if (treatmentText) {
                         var rowHtml = "";
-                        rowHtml = rowHtml + "<li>";
+                        rowHtml = rowHtml + "<li class='selected-row-" + data[d].id +"'>";
                         rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
                         rowHtml = rowHtml + data[d].price + "ש'ח";
                         rowHtml = rowHtml + " </p>";
@@ -397,7 +436,7 @@
 
                         var notes = data[d].notes;
                         if (notes) {
-                            rowHtml = rowHtml + "<li>";
+                            rowHtml = rowHtml + "<li class='selected-row-" + data[d].id +"'>";
                             rowHtml = rowHtml + " </p>";
                             rowHtml = rowHtml + "<p class='notes'>" + data[d].notes + "</p>";
                             rowHtml = rowHtml + "</li>";
@@ -409,12 +448,26 @@
                 }
             }
         }
-        Index.resetDialog();
     }
 
     var resetDialog = function () {
         $("#final-row-text").text('');
         $("#araList").val('');
+        $("#rightHeader").val('');
+        $("#centerHeader").val('');
+        $("#tooth1").val('');
+        $("#tooth2").val('');
+        $("#treatmentCategory").val('');
+        $("#treatmentList").val('');
+        $("#notesArea").val('');
+        $("#notes").val('');
+        $("#price").val('');
+
+        $("#treatmentList").html("<option>Select an Option</option>");
+
+        $(".selected-row").removeClass("selected-row");
+        $("#delete-row-button").hide();
+        changeReqRowId = null;
     }
 
     var changeReq = function (rowId) {
@@ -425,6 +478,11 @@
     }
 
     var changeRow = function (rowId) {
+
+        Index.resetDialog();
+        $("#delete-row-button").show();
+        $(".selected-row-" + rowId).addClass("selected-row");
+
         changeReqRowId = rowId;
 
         var row = rows.filter(x => x.id === rowId)[0];
@@ -447,6 +505,7 @@
             return result;
         }, {}); // empty object is the initial value for result object
     };
+
 
     return {
         init: init,
