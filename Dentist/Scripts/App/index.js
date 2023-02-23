@@ -223,7 +223,7 @@
 
             for (var i = 0; i < rows.length; i++) {
                 if (rows[i].areaList === areaListName) {
-                    rows[i].areaList = null;
+                    rows[i].areaList = "_" + rows[i].id;
                 }
             }
 
@@ -304,8 +304,8 @@
         if (!areaList) {
             areaList = "_" + rowId;
         }
-
-        if (areaListData.filter(x => x === areaList).length === 0) {
+        
+        if (areaListData.filter(x => x === areaList).length === 0 && !changeReqRowId) {
             areaListData.push((areaList));
             areaListDataIds.push(rowId);
 
@@ -331,9 +331,22 @@
 
             var row = rows.filter(x => x.id === changeReqRowId)[0];
 
-            row.areaList = $("#araList").val();
+            for (var j = 0; j < areaListData.length; j++) {
+                if (areaListData[j] === row.areaList) {
+                    areaListData[j] = $("#araList").val();
+                }
+            }
+
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].areaList === row.areaList) {
+                    rows[i].areaList = $("#araList").val();
+                }
+            }
+
             changeReqRowId = null;
         } else {
+            areaListData.push(("_" + rowId));
+            areaListDataIds.push(rowId);
             rows.push({
                 id: rowId,
                 isReq: isReq,
@@ -463,7 +476,7 @@
         $("#notes").val('');
         $("#price").val('');
 
-        $("#treatmentList").html("<option>Select an Option</option>");
+        $("#treatmentList").html("<option value=''>Select an Option</option>");
 
         $(".selected-row").removeClass("selected-row");
         $("#delete-row-button").hide();
@@ -487,10 +500,41 @@
 
         var row = rows.filter(x => x.id === rowId)[0];
 
-        if (row.areaList) {
+        var areaListTax = "";
+
+        if (row.areaList && row.areaList[0] !== "_") {
             $("#araList").val(row.areaList);
+            areaListTax = row.areaList;
         }
-        $("#final-row-text").text("( " + row.areaList + " )");
+        //treatment: null,
+            //category: null,
+        if (row.category) {
+
+            $("#treatmentCategory").val(row.category);
+            $('#treatmentCategory').trigger('change');
+
+            if (row.treatment) {
+                $("#treatmentList").val(row.treatment);
+            }
+        }
+
+        if (row.notes) {
+            $("#notesArea").val(row.notes);
+        }
+
+        if (row.price) {
+            $("#price").val(row.price);
+        }
+
+        if (row.tooth1) {
+            $("#tooth1").val(row.tooth1);
+        }
+
+        if (row.tooth2) {
+            $("#tooth2").val(row.tooth2);
+        }
+
+        $("#final-row-text").text("( " + areaListTax + " )");
 
     }
 
