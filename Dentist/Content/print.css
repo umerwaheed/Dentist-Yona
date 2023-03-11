@@ -18,11 +18,8 @@ body {
     flex-direction: column;
     width: 21cm;
     min-height: 29.7cm;
-    padding: 1cm;
-    border: 1px #D3D3D3 solid;
-    border-radius: 5px;
+    padding: 2px;
     background: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .left_sec_print img {

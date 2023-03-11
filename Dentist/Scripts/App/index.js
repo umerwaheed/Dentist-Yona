@@ -186,13 +186,13 @@
 
         $("#date").on("change",
             function () {
-                $("#patient-date").text($("#date").val());
+                $("#patient-date").text(Index.getDate());
             });
 
 
         document.getElementById('date').valueAsDate = new Date();
 
-        $("#patient-date").text($("#date").val());
+        $("#patient-date").text(Index.getDate());
 
         $("#saveRow").on("click",
             function () {
@@ -223,6 +223,7 @@
                 Index.deleteRow(changeReqRowId);
             });
     }
+
 
     var deleteRow = function(rowId) {
         var delRow = rows.filter(x => x.id === changeReqRowId)[0];
@@ -577,10 +578,25 @@
         }, {}); // empty object is the initial value for result object
     };
 
+    var getDate = function () {
+        var date = new Date($("#date").val());
+        var yyyy = date.getFullYear();
+        var mm = date.getMonth() + 1; // Months start at 0!
+        var dd = date.getDate();
+
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+
+        var formattedDate = dd + '/' + mm + '/' + yyyy;
+
+        return formattedDate;
+    }
+
 
     return {
         init: init,
         addRequirement: addRequirement,
+        getDate: getDate,
         bindRequirementEvent: bindRequirementEvent,
         bindPageEvents: bindPageEvents,
         unCheckAllRequirementList: unCheckAllRequirementList,
