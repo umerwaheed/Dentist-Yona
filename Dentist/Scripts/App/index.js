@@ -462,9 +462,10 @@
 
                     if (data[d].treatment || data[d].tooth1 || data[d].tooth2) {
                         var rowHtml = "";
+                        var price = data[d].price ? parseInt(data[d].price) : 0;
                         rowHtml = rowHtml + "<li class='selected-row-" + data[d].id +"'>";
                         rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
-                        rowHtml = rowHtml + data[d].price + "ש'ח";
+                        rowHtml = rowHtml + price.toLocaleString() + " " + "ש\"ח";
                         rowHtml = rowHtml + " </p>";
                         rowHtml = rowHtml +
                             "<p onClick='Index.changeRow(" +
