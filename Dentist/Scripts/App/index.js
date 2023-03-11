@@ -122,15 +122,25 @@
         var treatmentList = $("#treatmentList").val();
 
         var toothText = '';
+        var toothNum = '';
         if (tooth1) {
             if (tooth2) {
-                toothText = tooth1 + " - " + tooth2 + " שן";
+                toothNum = tooth2 + " - " + tooth1;
+                toothText = " שיניים";
             } else {
-                toothText = tooth1  + " שן";
+                toothNum = tooth1;
+                toothText = " שן";
             }
         }
 
-        $("#final-row-text").text("( " + treatmentList + " " + toothText + areaList+" )");
+        var html = "";
+       
+        html = html + "(<label> " + toothText + "&nbsp</label>";
+        
+        html = html + "<label>" + toothNum + "</label>";
+        html = html + "<label> &nbsp" + treatmentList + "</label>)";
+
+        $("#final-row-text").html(html);
     }
 
     var createRequirementRadioButtons = function() {
@@ -425,21 +435,32 @@
             $("#perscription").append(areaListHtml);
             if (data) {
                 for (var d = 0; d < data.length; d++) {
-                    var treatmentText = '';
+                    var toothText = '';
+                    var toothNum = '';
 
                     if (data[d].tooth1) {
-                        treatmentText = treatmentText + data[d].tooth1 + "שן";
+                        if (data[d].tooth2) {
+                            toothNum = data[d].tooth2 + " - " + data[d].tooth1;
+                            toothText = " שיניים";
+                        } else {
+                            toothNum = data[d].tooth1;
+                            toothText = " שן";
+                        }
                     }
 
-                    if (data[d].tooth2) {
-                        treatmentText = treatmentText + data[d].tooth2 + "שן";
-                    }
-
+                    var treatmentList = "";
                     if (data[d].treatment) {
-                        treatmentText = treatmentText + data[d].treatment;
+                        treatmentList = treatmentList + data[d].treatment;
                     }
+                    var html = "";
 
-                    if (treatmentText) {
+                    html = html + "<label> " + toothText + "&nbsp</label>";
+
+                    html = html + "<label>" + toothNum + "</label>";
+                    html = html + "<label> &nbsp" + treatmentList + "</label>";
+
+
+                    if (data[d].treatment || data[d].tooth1 || data[d].tooth2) {
                         var rowHtml = "";
                         rowHtml = rowHtml + "<li class='selected-row-" + data[d].id +"'>";
                         rowHtml = rowHtml + " <p lang='he' dir='rtl'>";
@@ -449,7 +470,7 @@
                             "<p onClick='Index.changeRow(" +
                             data[d].id +
                             ")' class='pointer-hover' lang='he' dir='rtl'>";
-                        rowHtml = rowHtml + treatmentText;
+                            rowHtml = rowHtml + html;
                         rowHtml = rowHtml + "</li>";
 
                         var notes = data[d].notes;
